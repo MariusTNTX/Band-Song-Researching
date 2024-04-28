@@ -1,0 +1,17 @@
+<form class="pb-4">
+  <h1>RESULT</h1>
+  <mat-tab-group dynamicHeight>
+    <mat-tab label="Song List">
+      <app-result-list></app-result-list>
+    </mat-tab>
+    <mat-tab label="Text Result">
+      <app-result-text [textMode]="true"></app-result-text>
+    </mat-tab>
+    <mat-tab label="Copy Result">
+      <app-result-text [textMode]="false"></app-result-text>
+    </mat-tab>
+  </mat-tab-group>
+</form>
+
+
+

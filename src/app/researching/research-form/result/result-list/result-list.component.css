@@ -1,0 +1,9 @@
+/* Result Area */
+.resultArea {
+  font-family: monospace
+}
+
+.align div {
+  display: flex;
+  align-items: center;
+}

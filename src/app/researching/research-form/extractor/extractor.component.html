@@ -1,0 +1,13 @@
+<div [formGroup]="formGroup">
+    <div *ngIf="inputType === input_type.TEXT" class="d-flex align-items-center">
+        <mat-form-field class="w-100">
+            <mat-label>Text, HTML or HTTP Response</mat-label>
+            <textarea formControlName="rawContent" matInput rows="1"></textarea>
+        </mat-form-field>
+        <button mat-flat-button color="primary" class="ms-2" (click)="generateListByText()">Generate</button>
+    </div>
+    <div *ngIf="inputType === input_type.JSON" class="d-flex align-items-center">
+        <button mat-flat-button type="button" color="primary" class="mb-4 w-100" (click)="fileInput.click()">Choose File</button>
+        <input #fileInput type="file" id="file" hidden accept=".har" (change)="generateListByJSON($event)">
+    </div>
+</div>

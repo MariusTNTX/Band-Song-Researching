@@ -1,0 +1,28 @@
+<div class="d-flex align-items-center" [style.display]="filtered ? 'flex !important' : 'none !important'">
+  <mat-checkbox class="me-1" color="primary" 
+    [checked]="song.checked" 
+    (change)="checkSong(song.id, !song.checked)">
+  </mat-checkbox>
+  <span class="text-secondary pe-3">#{{ index+1 < 10 ? '0' : '' }}{{ index+1 }}</span>
+  <span [matBadge]="matches" matBadgePosition="after" matBadgeColor="warn" class="customBadge"></span>
+  <mat-form-field class="hidden-bottom-text w-100 me-1">
+    <input type="text" matInput 
+      [value]="song.title" 
+      [disabled]="!song.checked" 
+      [class.text-danger]="duplicatedSong"
+      (keyup)="updateSongTitle(song.id, $event)">
+  </mat-form-field>
+  <mat-form-field class="hidden-bottom-text w-100">
+    <mat-label>Album</mat-label>
+    <mat-select [value]="song.album" 
+      [disabled]="!song.checked" 
+      (valueChange)="updateSongAlbumTitle(song.id, $event)">
+      <mat-option *ngFor="let album of albumForm.getRawValue()?.albumList"
+        [value]="album.id">
+        <span class="text-primary">{{ album.year }}</span>
+        {{ album.title }} 
+        <span class="text-secondary">({{ album.type }})</span>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>

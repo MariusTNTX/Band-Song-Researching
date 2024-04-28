@@ -1,0 +1,26 @@
+/* Song Checkbox */
+:host ::ng-deep .small-checkbox div.mdc-checkbox {
+    padding: inherit !important;
+}
+:host ::ng-deep .small-checkbox div.mdc-checkbox div.mat-mdc-checkbox-touch-target, 
+:host ::ng-deep .small-checkbox div.mdc-checkbox input.mdc-checkbox__native-control {
+    height: inherit !important;
+    width: inherit !important;
+}
+:host ::ng-deep .small-checkbox div.mdc-checkbox div.mdc-checkbox__background {
+    top: inherit !important;
+    left: inherit !important;
+}
+
+/* Song Input */
+:host ::ng-deep .hidden-bottom-text div.mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align{
+    display: none;
+}
+
+/* Song Badge */
+.customBadge {
+    position: relative;
+    z-index: 999;
+    left: 0px;
+    bottom: 8px;
+}

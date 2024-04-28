@@ -1,0 +1,17 @@
+/* Álbum Info */
+.album-info {
+    width: 180px;
+}
+
+/* Álbum Chip Grid */
+:host ::ng-deep .hidden-bottom-text div.mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align{
+    display: none;
+}
+
+/* Album Badge */
+.customBadge {
+    position: relative;
+    z-index: 999;
+    left: 170px;
+    bottom: 8px;
+}

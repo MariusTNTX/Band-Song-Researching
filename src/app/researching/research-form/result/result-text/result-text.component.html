@@ -1,0 +1,40 @@
+
+  <div class="d-flex justify-content-center mt-4">
+    <div class="resultArea">
+      <!-- Title -->
+      <div *ngIf="textMode" class="mb-4">
+        <span>{{ exampleBandResult.name | uppercase }}</span>
+        <span> ({{ exampleBandResult.initYear() }})</span>
+        <span>({{ exampleBandResult.hitSongYears().join('-') }})</span>
+      </div>
+      <!-- Albums -->
+      <div *ngFor="let album of exampleBandResult.albums; index as albumIndex" class="mt-3">
+        <span *ngIf="!textMode">
+          <span>{{ album.year }}: </span>
+          <span>{{ album.songs.length }}</span>
+          <span>({{ getAlbumStarScore(album) }})</span>
+        </span>
+        <div *ngFor="let song of album.songs; index as songIndex">
+          <span *ngIf="textMode">{{ album.year.toString().slice(2,4) }}</span>
+          <span *ngIf="song.starScore === 6">º***</span>
+          <span *ngIf="song.starScore === 4">&nbsp;***</span>
+          <span *ngIf="song.starScore === 2">&nbsp;-**</span>
+          <span *ngIf="song.starScore === 1">&nbsp;--*</span>
+          <span *ngIf="song.starScore === 0.5">&nbsp;---</span>
+          <span>[{{ exampleBandResult.country }}] </span>
+          <span>{{ exampleBandResult.name }} </span>
+          <span>{{ albumIndex === 0 && songIndex === 0 ? '+' : '-' }} </span>
+          <span>{{ song.title }} </span>
+          <span>({{ songIndex === 0 ? '·' : '' }}{{ album.title }})</span>
+          <span *ngFor="let genre of album.genres"> #{{ genre }}</span>
+          <span *ngIf="song.stars === 3"> ({{ album.year - exampleBandResult.initYear() }} years)</span>
+          <span *ngIf="textMode">
+            <span *ngIf="!!song.topScore()">({{ song.topScore() }})</span>
+            <span>: </span>
+            <span>{{ song.scores.join('+') }} </span>
+            <span>{{ song.totalScore() }}</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>

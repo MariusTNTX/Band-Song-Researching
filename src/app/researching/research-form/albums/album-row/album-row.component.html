@@ -1,0 +1,26 @@
+<div class="d-flex" [style.display]="filtered ? 'flex !important' : 'none !important'">
+  <div class="d-flex flex-column album-info">
+    <div class="hidden-bottom-text">
+      <span [matBadge]="totalSongs" matBadgePosition="after" matBadgeColor="warn" class="customBadge"></span>
+      <mat-form-field>
+        <input matInput [value]="album.title" (keyup)="updateAlbumTitle(album.id, $event)">
+      </mat-form-field>
+    </div>
+    <div>
+      <span class="text-primary me-1">{{ album.year }}</span>
+      <span class="text-secondary">({{ album.type }})</span>
+    </div>
+  </div>
+  <mat-form-field class="d-block w-100 hidden-bottom-text">
+    <mat-label>Genres</mat-label>
+    <mat-chip-grid #albumChipGrid>
+      <mat-chip-row *ngFor="let genre of album.genres" color="primary" 
+        (removed)="removeGenre(album.id, genre)">
+        <span class="text-primary">#{{ genre }}</span>
+        <button matChipRemove><mat-icon>cancel</mat-icon></button>
+      </mat-chip-row>
+    </mat-chip-grid>
+    <input placeholder="New Genre..." [matChipInputFor]="albumChipGrid" 
+      (matChipInputTokenEnd)="addGenre(album.id, $event)"/>
+  </mat-form-field>
+</div>

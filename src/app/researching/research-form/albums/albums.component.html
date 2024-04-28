@@ -1,0 +1,13 @@
+<form [formGroup]="albumForm">
+  <div class="d-flex mb-3">
+    <h1 class="d-flex align-items-center mb-0 me-3">ALBUMS</h1>
+    <button mat-mini-fab  [color]="filtered ? 'accent' : 'primary'" (click)="toggleResourceFilter()">
+      <mat-icon>filter_list</mat-icon>
+    </button>
+  </div>
+  <app-extractor [formGroup]="albumForm" [elementType]="elementType.ALBUM"></app-extractor>
+  <div class="scroll-container pe-2">
+    <app-album-row *ngFor="let album of albumForm.getRawValue()?.albumList" [album]="album"></app-album-row>
+  </div>
+</form>
+<hr>

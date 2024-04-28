@@ -1,0 +1,38 @@
+<!-- MAIN DATA -->
+<form [formGroup]="mainDataForm">
+    <h1>MAIN DATA</h1>
+    <div class="row">
+      <div class="col-12 col-lg-3">
+        <mat-form-field class="w-100">
+          <mat-label>Band Name</mat-label>
+          <input formControlName="bandName" matInput minlength="2" maxlength="50">
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-lg-3">
+        <mat-form-field class="w-100">
+          <mat-label>Band Country</mat-label>
+          <input formControlName="bandCountry" matInput minlength="2" maxlength="10">
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-lg-3">
+        <mat-form-field class="w-100">
+          <mat-label>Items by Resource</mat-label>
+          <input formControlName="itemsByResource" matInput type="number" min="5" max="100">
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-lg-3 pt-lg-2 pb-4">
+        <mat-checkbox formControlName="ampliation" color="primary">
+          Ampliation Included
+        </mat-checkbox>
+      </div>
+      <div class="col-12">
+        <h3>Resources:</h3>
+        <div [formGroup]="resourceForm" class="d-flex flex-wrap justify-content-center">
+          <div *ngFor="let resource of resourceList" [formGroupName]="resource.id">
+            <mat-checkbox formControlName="checked" color="primary" checked>{{ resource.label }}</mat-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <hr>

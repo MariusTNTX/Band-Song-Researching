@@ -1,0 +1,26 @@
+<div class="songContainer mt-4">
+  <div *ngFor="let song of songList" class="d-flex resultArea align my-1">
+    <div class="d-flex me-2">
+      <button mat-mini-fab type="button" color="primary" 
+        [disabled]="song.starScore === 4 || song.starScore === 6" (click)="updateSongStars(song, true)">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-mini-fab type="button" color="primary" 
+        [disabled]="song.starScore === 0.5" (click)="updateSongStars(song, false)">
+        <mat-icon>remove</mat-icon>
+      </button>
+    </div>
+    <div [style.width]="'30px'" class="justify-content-end fw-bold">
+      <span *ngIf="song.starScore === 6">º***</span>
+      <span *ngIf="song.starScore === 4">***</span>
+      <span *ngIf="song.starScore === 2">-**</span>
+      <span *ngIf="song.starScore === 1">--*</span>
+      <span *ngIf="song.starScore === 0.5">---</span>
+    </div>
+    <div>{{ song.title }}&nbsp;</div>
+    <div>({{ song.album.title }})</div>
+    <div *ngIf="!!song.topScore()" class="text-danger">&nbsp;({{ song.topScore() }})</div>
+    <div>:&nbsp;{{ scores(song) }}&nbsp;</div>
+    <div class="text-primary">{{ song.totalScore() }}</div>
+  </div>
+</div>
