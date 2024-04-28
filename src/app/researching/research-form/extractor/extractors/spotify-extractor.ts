@@ -37,27 +37,40 @@ export function extractSpotifyData(INPUT_CONTENT: any, INPUT_TYPE: string){
       return closingError('El JSON introducido no proviene de la página web oficial de Spotify');
     }
 
-    /* Obtener información del artista */
+    /* INFORMACIÓN DEL ARTISTA */
     let artistOverview = json.log.entries
+      /* Filtrar la petición de información del artista */
       .filter((entry: any) => entry.request.url.includes('query?operationName=queryArtistOverview') && entry.response.content.text)
-      .map((entry: any) => JSON.parse(entry.response.content.text))
-      .map((artist: any) => artist.data.artistUnion)[0];
+      /* Obtener contenido */
+      .map((entry: any) => JSON.parse(entry.response.content.text).data.artistUnion)
+      /* Modificar estructura final */
+      .map((data: any) => {
+        data.topTracks = data.discography.topTracks.items.map((s: any) => s.track);
+        delete data.discography;
+        delete data.preRelease;
+        delete data.saved;
+        delete data.__typename;
+        return data;
+      })[0];
     
-    /* Obtener listado de álbumes con sus canciones ordenados de forma cronológica */
+    /* LISTA DE ÁLBUMES */
     let discographyAlbums = json.log.entries
+      /* Filtrar la petición de la discografía del artista */
       .filter((entry: any) => entry.request.url.includes('query?operationName=queryArtistDiscographyAll') && entry.response.content.text)
+      /* Obtener contenido del artista */
       .map((entry: any) => JSON.parse(entry.response.content.text))
+      /* Obtener listado de álbumes  */
       .map((artist: any) => artist.data.artistUnion.discography.all.items
         .map((album: any) => album.releases.items[0])
-        .map((album: any) => {
-          album.tracks = [];
-          return album;
-        })
+        .map((album: any) => ({ ...album, tracks: [] }))
+      /* Ordenar álbumes de forma cronológica */
       )[0].sort((a: any, b: any) => a.date.isoString.localeCompare(b.date.isoString));
       
-    /* Obtener listado de canciones ordenadas por número de escuchas */
+    /* LISTA DE CANCIONES */
     let topTracks = json.log.entries
+      /* Filtrar las peticiones de canciones */
       .filter((entry: any) => entry.request.url.includes('query?operationName=queryAlbumTracks') && entry.response.content.text)
+      /* Obtener listado de canciones por álbum interrelacionando álbumes y canciones */
       .map((entry: any) => {
         let entryUrl = entry.request.url;
         entry = JSON.parse(entry.response.content.text).data.albumUnion.tracks.items.map((song: any) => song.track);
@@ -73,10 +86,56 @@ export function extractSpotifyData(INPUT_CONTENT: any, INPUT_TYPE: string){
         });
         return entry;
       })
+      /* Obtener listado de canciones */
       .reduce((res: any[], album: any) => res = [ ...res, ...album ], [])
-      .sort((a: any, b: any) => parseInt(b.playcount) - parseInt(a.playcount));
+      /* Ordenar por número de reproducciones */
+      .sort((a: any, b: any) => parseInt(b.playcount) - parseInt(a.playcount))
+      /* Agrupar duplicados en grupos */
+      .reduce((res: any[], song: any, index: number) => {
+        if(index > 0 && res[res.length-1].some((s: any) => s.playcount === song.playcount && 
+          (song.name.toLowerCase().includes(s.name.toLowerCase()) || s.name.toLowerCase().includes(song.name.toLowerCase())))){
+          res[res.length-1].push(song);
+        } else res.push([song]);
+        return res;
+      }, [])
+      /* Reducir grupos de duplicados según antigüedad, tipo de álbum y longitud de texto de la canción */
+      .map((group: any) => {
+        if(group.length > 1){
+          group = group.sort((a: any, b: any) => a.album.date.isoString.localeCompare(b.album.date.isoString));
+          let mainSong!: any;
+          if(group[0].album.type === 'ALBUM' || !group.some((a: any) => a.album.type === 'ALBUM')){
+            mainSong = group.shift();
+            mainSong.otherVersions = group;
+          } else {
+            mainSong = group.find((a: any) => a.album.type === 'ALBUM'); //TODO Encontrar la canción con el título más corto y que pertenezca a un álbum
+            mainSong.otherVersions = group.filter((a: any) => a.album.id !== mainSong.album.id);
+          }
+          return mainSong;
+        }
+        return group[0];
+      });
+    
+    /* Añadir álbum a las canciones del Top 10 */
+    artistOverview.topTracks.forEach((topSong: any) => {
+      let album = topTracks.reduce((res: any, song: any) => {
+        if(topSong.playcount === song.playcount && 
+          (song.name.toLowerCase().includes(topSong.name.toLowerCase()) || topSong.name.toLowerCase().includes(song.name.toLowerCase()))){
+          res = song.album;
+        } else if(song.otherVersions){
+          song.otherVersions.map((s: any) => {
+            if(topSong.playcount === s.playcount && 
+              (s.name.toLowerCase().includes(topSong.name.toLowerCase()) || topSong.name.toLowerCase().includes(s.name.toLowerCase())))
+            res = s.album;
+          });
+        }
+        return res;
+      }, {});
+      delete topSong.albumOfTrack;
+      topSong.album = album;
+      return topSong;
+    });
 
-    return closingData({ artistOverview, discographyAlbums, topTracks });
+    return closingData({ ...artistOverview, albums: discographyAlbums, tracks: topTracks });
   };
 
   /* ---------------------------------------------------------------------------------------------- */
