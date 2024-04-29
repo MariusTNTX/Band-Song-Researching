@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { INPUT_TYPE } from '../../../model/input-type';
 import { ELEMENT_TYPE } from '../../../model/element-type';
-import { extractSpotifyData } from './extractors/spotify-extractor';
+import { extractData } from './extractors/extractor';
 
 @Component({
   selector: 'app-extractor',
@@ -41,7 +41,7 @@ export class ExtractorComponent implements OnInit {
     const file: File = event.target.files[0];
     const reader: FileReader = new FileReader();
     reader.onload = (e: any) => {
-      console.log(extractSpotifyData(JSON.parse(e.target.result), 'JSON'));
+      console.log(extractData(JSON.parse(e.target.result), 'SPOTIFY', 'JSON'));
     };
     reader.readAsText(file);
   }
