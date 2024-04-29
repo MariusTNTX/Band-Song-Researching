@@ -107,7 +107,7 @@ export function extractSpotifyData(INPUT_CONTENT: any, INPUT_TYPE: string){
             mainSong = group.shift();
             mainSong.otherVersions = group;
           } else {
-            mainSong = group.find((a: any) => a.album.type === 'ALBUM'); //TODO Encontrar la canción con el título más corto y que pertenezca a un álbum
+            mainSong = group.find((a: any) => a.album.type === 'ALBUM'); //TODO Encontrar la canción con el título más corto y que pertenezca a un álbum tipo ALBUM
             mainSong.otherVersions = group.filter((a: any) => a.album.id !== mainSong.album.id);
           }
           return mainSong;
