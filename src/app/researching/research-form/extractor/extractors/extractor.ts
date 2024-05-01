@@ -84,3 +84,7 @@ export function setWarn(origin: any, message: string, finalValue: any = null){
   }
   return finalValue;
 };
+
+export class ExtractorError extends Error {
+  constructor(message: string){ super(message) }
+}
