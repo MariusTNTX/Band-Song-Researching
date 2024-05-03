@@ -4,12 +4,12 @@ import { INPUT_TYPE } from "./input-type";
 import { SongResult } from "./song-result";
 
 export const ResourceList: { id: string, label: string, value: boolean, inputType: INPUT_TYPE, songList: any[] }[] = [
-    { id: "spotify",      label: "Spotify",       value: true,  inputType: INPUT_TYPE.JSON, songList: [24, 15, 32, 3, 13, 21, 17, 6, 18, 9, 5, 29, 30, 4, 28, 22, 11, 1, 33, 19]},
-    { id: "setlistFM",    label: "Setlist FM",    value: true,  inputType: INPUT_TYPE.TEXT, songList: [26, 2, 5, 27, 33, 23, 12, 19, 29, 6, 15, 17, 5, 32, 1, 11, 3, 13, 33, 21]},
-    { id: "lastFM",       label: "Last FM",       value: true,  inputType: INPUT_TYPE.TEXT, songList: [25, 19, 1, 32, 29, 3, 27, 15, 6, 9, 21, 11, 5, 24, 23, 26, 12, 30, 17, 33]},
-    { id: "youTubeMusic", label: "YouTube Music", value: true,  inputType: INPUT_TYPE.TEXT, songList: [21, 29, 11, 6, 3, 0, 23, 32, 26, 5, 27, 20, 31, 14, 9, 10, 34, 13, 15, 17]},
-    { id: "theTopTens",   label: "TheTopTens",    value: true,  inputType: INPUT_TYPE.TEXT, songList: [11, 21, 7, 5, 19, 15, 16, 6, 26, 17, 3, 13, 9, 30, 8, 33, 29, 23, 32, 1]},
-    { id: "chatGPT",      label: "ChatGPT",       value: false, inputType: INPUT_TYPE.TEXT, songList: [] },
+    { id: "spotify",       label: "Spotify",       value: true,  inputType: INPUT_TYPE.JSON, songList: [24, 15, 32, 3, 13, 21, 17, 6, 18, 9, 5, 29, 30, 4, 28, 22, 11, 1, 33, 19]},
+    { id: "setlist_fm",    label: "Setlist FM",    value: true,  inputType: INPUT_TYPE.TEXT, songList: [26, 2, 5, 27, 33, 23, 12, 19, 29, 6, 15, 17, 5, 32, 1, 11, 3, 13, 33, 21]},
+    { id: "last_fm",       label: "Last FM",       value: true,  inputType: INPUT_TYPE.TEXT, songList: [25, 19, 1, 32, 29, 3, 27, 15, 6, 9, 21, 11, 5, 24, 23, 26, 12, 30, 17, 33]},
+    { id: "youtube_music", label: "YouTube Music", value: true,  inputType: INPUT_TYPE.JSON, songList: [21, 29, 11, 6, 3, 0, 23, 32, 26, 5, 27, 20, 31, 14, 9, 10, 34, 13, 15, 17]},
+    { id: "thetoptens",    label: "TheTopTens",    value: true,  inputType: INPUT_TYPE.TEXT, songList: [11, 21, 7, 5, 19, 15, 16, 6, 26, 17, 3, 13, 9, 30, 8, 33, 29, 23, 32, 1]},
+    { id: "chatgpt",       label: "ChatGPT",       value: false, inputType: INPUT_TYPE.TEXT, songList: [] },
 ];
 export const AlbumList: { id: number, year: number, title: string, type: string, genres: string[] }[] = [
     { id: 8,  year: 2004, title: "Ven", type: "Studio Release", genres: [] },

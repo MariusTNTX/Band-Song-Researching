@@ -27,6 +27,7 @@ export class FormService {
   setResourceForm(): FormGroup {
     let totalResources: { [key: string]: FormControl } = ResourceList.reduce((result: any, item: any) => {
       result[item.id] = new FormGroup({ 
+        id: new FormControl(item.id),
         rawContent: new FormControl(''), 
         checked: new FormControl(item.value),
         inputType: new FormControl(item.inputType),

@@ -1,4 +1,5 @@
 import { extractSpotifyJSON } from "./spotify-json-extractor";
+import { extractYouTubeMusicJSON } from "./youtube-music-json-extractor";
 
 export function extractData(
   INPUT_CONTENT: any, 
@@ -33,7 +34,7 @@ export function extractData(
         case 'SPOTIFY': return extractSpotifyJSON(INPUT_CONTENT);
         case 'SETLIST_FM': return closingError(_DATA, 'El extractor de Setlist FM no soporta inputs de tipo JSON');
         case 'LAST_FM': return closingError(_DATA, 'El extractor de Last FM no soporta inputs de tipo JSON');
-        case 'YOUTUBE_MUSIC': return closingError(_DATA, 'El extractor de YouTube Music no soporta inputs de tipo JSON');
+        case 'YOUTUBE_MUSIC': return extractYouTubeMusicJSON(INPUT_CONTENT);
         case 'THETOPTENS': return closingError(_DATA, 'El extractor de TheTopTens no soporta inputs de tipo JSON');
         case 'CHATGPT': return closingError(_DATA, 'El extractor de ChatGPT no soporta inputs de tipo JSON');
         default: return closingError(_DATA, "La fuente introducida en el extractor no es válida");

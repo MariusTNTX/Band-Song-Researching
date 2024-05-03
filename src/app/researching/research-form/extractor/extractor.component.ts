@@ -41,7 +41,7 @@ export class ExtractorComponent implements OnInit {
     const file: File = event.target.files[0];
     const reader: FileReader = new FileReader();
     reader.onload = (e: any) => {
-      console.log(extractData(JSON.parse(e.target.result), 'SPOTIFY', 'JSON'));
+      console.log(extractData(JSON.parse(e.target.result), this.formGroup.get('id')?.value.toUpperCase(), 'JSON'));
     };
     reader.readAsText(file);
   }

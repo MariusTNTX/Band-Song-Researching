@@ -53,10 +53,10 @@ export function extractSpotifyJSON(INPUT_CONTENT: any){
     if(INPUT_CONTENT.log.pages.length === 0){
       return closingError(_DATA, 'El JSON introducido no contiene la URL de la página web. Por favor, recarga la página antes de comenzar a grabar');
     } else if(!INPUT_CONTENT.log.pages[0].title.includes('https://open.spotify.com')){
-      return closingError(_DATA, 'El JSON introducido no proviene de la página web oficial de Spotify');
+      return closingError(_DATA, 'El JSON introducido no proviene de la página web oficial');
     }
   } catch (error) {
-    return closingError(_DATA, 'La estructura del JSON introducido no no se corresponde con la esperada de la página web oficial de Spotify', error);
+    return closingError(_DATA, 'La estructura del JSON introducido no se corresponde con la esperada de la página web oficial', error);
   }
 
 
