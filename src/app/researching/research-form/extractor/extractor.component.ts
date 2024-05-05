@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { INPUT_TYPE } from '../../../model/input-type';
 import { ELEMENT_TYPE } from '../../../model/element-type';
 import { extractData } from './extractors/extractor';
+import { ApiService } from '../../../services/api.service';
 
 @Component({
   selector: 'app-extractor',
@@ -26,7 +27,7 @@ export class ExtractorComponent implements OnInit {
 
   public inputType!: INPUT_TYPE;
 
-  constructor(){ }
+  constructor(private apiService: ApiService){ }
 
   ngOnInit(){
     this.inputType = this.formGroup.value.inputType;
@@ -35,6 +36,7 @@ export class ExtractorComponent implements OnInit {
   generateListByText(){ 
     console.log(this.formGroup.value.rawContent);
     this.formGroup.get("rawContent")?.setValue("");
+    /* this.apiService.get('puppeteer').subscribe((rs: any) => console.log); */
   }
 
   generateListByJSON(event: any){ 
