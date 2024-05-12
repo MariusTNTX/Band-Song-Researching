@@ -26,7 +26,36 @@ const server = http.createServer((req, res) => {
       res.statusCode = 404;
       res.end(JSON.stringify({ error: 'Parámetros no válidos', request }));
     }
-    exec(`node src/app/researching/research-form/extractor/puppeteer/index.js ${args}`, (error, stdout, stderr) => {
+    exec(`node src/app/researching/research-form/extractor/puppeteer/youtube-music/index.js ${args}`, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error al ejecutar el script: ${error.message}`);
+        res.statusCode = 500;
+        res.end(JSON.stringify({ error: 'Error al ejecutar el script: ' + error }));
+        return;
+      }
+      if (stderr) {
+        console.error(`Error de salida estándar del script: ${stderr}`);
+      }
+      res.setHeader('Content-Type', 'application/json');
+      res.statusCode = 200;
+      res.end(stdout);
+    });
+  /* ---------------------------------------------------------------------------------------------- */
+  /* /PUPPETEER/SETLISTFM --------------------------------------------------------------------------*/
+  /* ---------------------------------------------------------------------------------------------- */
+  } if (request.endpoint === '/puppeteer/setlistfm' && req.method === 'GET') {
+    var args = '';
+    if(request.params.url){
+      args = `--url ${request.params.url}`;
+    } else if(request.params.id){
+      args = `--id ${request.params.id}`;
+    } else if(request.params.band){
+      args = `--band ${request.params.band}`;
+    } else {
+      res.statusCode = 404;
+      res.end(JSON.stringify({ error: 'Parámetros no válidos', request }));
+    }
+    exec(`node src/app/researching/research-form/extractor/puppeteer/setlist-fm/index.js ${args}`, (error, stdout, stderr) => {
       if (error) {
         console.error(`Error al ejecutar el script: ${error.message}`);
         res.statusCode = 500;
