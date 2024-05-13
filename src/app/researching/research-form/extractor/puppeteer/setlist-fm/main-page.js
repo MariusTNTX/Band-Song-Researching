@@ -40,9 +40,8 @@ export async function getTours(core){
 					Array.from(h.nextElementSibling.children).forEach(li => {
 						result.push({
 							id: li.querySelector('a').href.split('?')[1].split('&')[2].split('=')[1],
-							link: li.querySelector('a').href,
-							name: li.querySelector('a span').textContent.trim(),
-							plays: parseInt(Array.from(li.querySelectorAll('span'))[1].textContent.trim())
+							name: li.querySelector('a span').textContent.trim() || null,
+							concertCount: parseInt(Array.from(li.querySelectorAll('span'))[1].textContent.trim())
 						});
 					});
 				}
@@ -63,9 +62,8 @@ export async function getCountries(core){
 					Array.from(h.nextElementSibling.children).forEach(li => {
 						result.push({
 							id: li.querySelector('a').href.split('?')[1].split('&')[1].split('=')[1],
-							link: li.querySelector('a').href,
 							name: li.querySelector('a span').textContent.trim(),
-							plays: parseInt(Array.from(li.querySelectorAll('span'))[1].textContent.trim())
+							concertCount: parseInt(Array.from(li.querySelectorAll('span'))[1].textContent.trim())
 						});
 					});
 				}
@@ -88,7 +86,7 @@ export async function getVenues(core){
 							id: li.querySelector('a').href.split('?')[1].split('&')[2].split('=')[1],
 							link: li.querySelector('a').href,
 							name: li.querySelector('a span').textContent.trim(),
-							plays: parseInt(Array.from(li.querySelectorAll('span'))[1].textContent.trim())
+							concertCount: parseInt(Array.from(li.querySelectorAll('span'))[1].textContent.trim())
 						});
 					});
 				}
@@ -109,8 +107,7 @@ export async function getYears(core){
 					Array.from(h.nextElementSibling.children).forEach(li => {
 						result.push({
 							year: parseInt(li.querySelector('a span').textContent.trim()),
-							link: li.querySelector('a').href,
-							plays: parseInt(Array.from(li.querySelectorAll('span'))[1].textContent.trim())
+							concertCount: parseInt(Array.from(li.querySelectorAll('span'))[1].textContent.trim())
 						});
 					});
 				}

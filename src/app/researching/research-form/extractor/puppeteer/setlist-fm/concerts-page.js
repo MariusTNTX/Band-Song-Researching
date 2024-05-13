@@ -14,7 +14,8 @@ export async function getConcerts(core, totalPages, id){
         for(let concert of document.querySelectorAll('div.col-xs-12.setlistPreview')){
           result.push({
             link: concert.querySelector('a').href,
-            name: concert.querySelector('a').textContent.trim(),
+            fest: concert.querySelector('a').textContent.trim().split(' at ')[1] !== concert.querySelector('a[href*="venue/"]').textContent.trim()
+              ? concert.querySelector('a').textContent.trim().split(' at ')[1].slice(0, -5) : undefined,
             date: {
               year: parseInt(concert.querySelector('span.year').textContent.trim()),
               month: months[concert.querySelector('span.month').textContent.trim()],

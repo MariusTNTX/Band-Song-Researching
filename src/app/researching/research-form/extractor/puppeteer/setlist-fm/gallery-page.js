@@ -28,7 +28,7 @@ export async function getGallery(core){
       await core.page.click('button.lity-close');
       await new Promise(resolve => setTimeout(resolve, 500));
       return gallery;
-    } else return null;
+    } else return undefined;
 	} catch (error) {
     throw new MainExtractorError(core.DATA, error, 'Error general en la sección GET GALLERY');
 	}
