@@ -7,7 +7,8 @@ export async function initialNavigation(core){
 		} else if(core.ARGS.id){
 			await core.page.goto(`https://www.setlist.fm/search?artist=${core.ARGS.id}`);
 		} else if(core.ARGS.band){
-			await core.page.goto(`https://www.setlist.fm/search?query=${core.ARGS.band.replaceAll(/%20|_/g,'+')}`);
+      core.ARGS.band = core.ARGS.band.replaceAll(/%20| |\s|_/g,'+');
+			await core.page.goto(`https://www.setlist.fm/search?query=${core.ARGS.band}`);
 		} 
 	} catch (error) {
 		throw new MainExtractorError(core.DATA, error, 'Error general en la sección NAVIGATION');

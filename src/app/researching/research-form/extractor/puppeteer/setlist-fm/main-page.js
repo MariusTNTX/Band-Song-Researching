@@ -11,6 +11,18 @@ export async function getRoutes(core){
 	}
 }
 
+export async function getTotalPages(core){
+  try {
+		return await core.page.evaluate(() => {
+			if(document.querySelector('a[title="Go to last page"]')){
+				return document.querySelector('a[title="Go to last page"]').textContent;
+			} else return Array.from(document.querySelectorAll('a.pageLink')).pop().textContent;
+		});
+	} catch (error) {
+		throw new MainExtractorError(core.DATA, error, 'Error general en la sección GET TOTAL PAGES');
+	}
+}
+
 export async function getId(core){
   try {
     return core.ARGS.url.split('?')[1].split('&')[0].split('=')[1];
@@ -76,8 +88,6 @@ export async function getVenues(core){
 							id: li.querySelector('a').href.split('?')[1].split('&')[2].split('=')[1],
 							link: li.querySelector('a').href,
 							name: li.querySelector('a span').textContent.trim(),
-							location: li.querySelector('a span').textContent.split(',')[0].trim(),
-							city: li.querySelector('a span').textContent.split(',')[1].trim(),
 							plays: parseInt(Array.from(li.querySelectorAll('span'))[1].textContent.trim())
 						});
 					});
