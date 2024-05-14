@@ -2,24 +2,22 @@ import { MainExtractorError } from "../main-extractor-error.js";
 
 export async function getGallery(core){
 	try {
-    if(await core.page.evaluate(() => { return document.querySelector('a.galleryLink')?.href })){
-      await core.page.evaluate(() => document.querySelector('a.galleryLink').click());
+    if(await core.page.evaluate(() => { return document.querySelector('a.galleryLink')?.href || null })){
+      await core.page.evaluate(() => document.querySelector('a.galleryLink')?.click());
       await core.page.waitForSelector('button.lity-close');
       await core.page.evaluate(async () => {
-        for(let div of Array.from(document.querySelector('div.slick-track').children)){
+        for(let _ of Array.from(document.querySelector('div.slick-track')?.children || [])){
           await new Promise(resolve => setTimeout(resolve, 500));
-          console.log(div);
-          document.querySelectorAll('button')[2].click();
+          document.querySelectorAll('button')?.[2]?.click();
         }
       });
       let gallery = await core.page.evaluate(() => {
         let result = [];
-        console.log('segundo evaluate');
-        Array.from(document.querySelector('div.slick-track').children).forEach((img) => {
+        Array.from(document.querySelector('div.slick-track')?.children || []).forEach((img) => {
           if(img.querySelectorAll('div')?.[1]?.getAttribute('style')){
             result.push({
-              image: img.querySelectorAll('div')[1].getAttribute('style')
-              .replaceAll(/background-image:url|background-image: url|\'\)|\"\)|\(\'|\(\"/g, '')
+              image: img?.querySelectorAll('div')?.[1]?.getAttribute('style')
+                     ?.replaceAll(/background-image:url|background-image: url|\'\)|\"\)|\(\'|\(\"/g, '') || null
             });
           }
         });
@@ -28,8 +26,9 @@ export async function getGallery(core){
       await core.page.click('button.lity-close');
       await new Promise(resolve => setTimeout(resolve, 500));
       return gallery;
-    } else return undefined;
+    } else return null;
 	} catch (error) {
-    throw new MainExtractorError(core.DATA, error, 'Error general en la sección GET GALLERY');
+    if(error instanceof MainExtractorError) throw error;
+    else throw new MainExtractorError(core.DATA, error, 'Error general en la función GET GALLERY');
 	}
 }

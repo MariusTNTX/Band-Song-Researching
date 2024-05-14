@@ -10,16 +10,16 @@ export async function getFullVenues(core, venues){
       ]);
       let newInfo = await core.page.evaluate(() => {
         let result = {};
-        document.querySelectorAll('div.info div.form-group').forEach(row => {
-          switch(row.querySelector('span').textContent.trim()){
-            case 'Address': result.address = row.querySelector('p').textContent.trim(); 
+        document.querySelectorAll('div.info div.form-group')?.forEach(row => {
+          switch(row?.querySelector('span')?.textContent?.trim()){
+            case 'Address': result.address = row?.querySelector('p')?.textContent?.trim() || null; 
               break;
-            case 'Web': result.externalLinks = Array.from(row.querySelectorAll('a')).map(a => ({
-              link: a.href,
-              name: a.textContent.trim()
-            }));
+            case 'Web': result.externalLinks = Array.from(row?.querySelectorAll('a'))?.map(a => ({
+              link: a?.href || null,
+              name: a?.textContent?.trim() || null
+            })) || null;
               break;
-            case 'Opened': result.active = row.querySelectorAll('span')[1].textContent.trim();
+            case 'Opened': result.active = row?.querySelectorAll('span')?.[1]?.textContent?.trim() || null;
               break;
           }
         });
@@ -29,6 +29,7 @@ export async function getFullVenues(core, venues){
     }
     return [ ...newVenues ];
 	} catch (error) {
-    throw new MainExtractorError(core.DATA, error, 'Error general en la sección GET FULL VENUES');
+    if(error instanceof MainExtractorError) throw error;
+    else throw new MainExtractorError(core.DATA, error, 'Error general en la función GET FULL VENUES');
 	}
 }
